@@ -13,21 +13,6 @@ def load_image(path):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # OpenCV uses BGR by default
     return image
 
-
-def get_svd(matrix_to_decompose):
-    svd_result = np.linalg.svd(matrix_to_decompose, full_matrices=False)
-    return (svd_result[0], svd_result[1], svd_result[2])
-
-
-def multiply_svd_compress(singular_values, U, S, V):
-    # print(U.shape)
-    # print(len(S))
-    # print(V.shape)
-
-    result = np.matmul(np.matmul(U[:, :singular_values], np.diag(S[:singular_values])), V[:singular_values, :])
-    return result
-
-
 def get_svd_compressed(singular_values, matrix_to_decompose):
     (U, S, V) = np.linalg.svd(matrix_to_decompose, full_matrices=False)
     U_c = U[:, :singular_values]
@@ -38,19 +23,6 @@ def get_svd_compressed(singular_values, matrix_to_decompose):
 
 def multiply_compressed(U, S, V):
     return np.matmul(np.matmul(U, np.diag(S)), V)
-
-
-def compress_and_reconstruct(R, G, B):
-    result = []
-    for element in (R, G, B):
-        no_of_singular_values = math.ceil(max(R.shape) * compression_factor)
-        print(f"Number of singular values: {no_of_singular_values}")
-        U, S, V = get_svd(element)
-        # print(f"U:{U}")
-        # print(f"S:{S}")
-        # print(f"V:{V}")
-        result.append(multiply_svd_compress(no_of_singular_values, U, S, V))
-    return result
 
 
 def reconstruct(compressed_image):
