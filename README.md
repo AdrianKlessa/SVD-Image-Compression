@@ -4,6 +4,9 @@ A simple example of using Singular Value Decomposition for image compression. Th
 
 (2MB to 472 KB)
 
+(710x946x3x8 bits to 71x95x9x64 bits)
+
+
 Original:
 
 ![alt text](test_images/curiosity.jpg)
